@@ -10,4 +10,4 @@ ADD docker-entrypoint.sh /entrypoint.sh
 ADD local.ini /etc/couchdb/
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["couchdb"]
-EXPOSE 22 5984
+EXPOSE 5984
