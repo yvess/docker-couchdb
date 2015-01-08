@@ -1,19 +1,13 @@
-FROM klaemo/couchdb
+FROM ubuntu:14.04
 MAINTAINER Yves Serrano <y@yas.ch>
-RUN apt-get update && apt-get install -yq \
-        openssh-server \
-        runit \
-        python \
-    && rm -rf /var/lib/apt/lists/* && \
-    mkdir /root/.ssh && chmod 0700 /root/.ssh && \
-    mkdir -p /etc/service-off && \
-    mkdir -p /var/run/sshd
-COPY ./root/_ssh_insecure/id_rsa ./root/_ssh_insecure/id_rsa.pub /root/.ssh/
-RUN cat /root/.ssh/id_rsa.pub > /root/.ssh/authorized_keys
-COPY entrypoint.sh /entrypoint.sh
-COPY etc/service/sshd /etc/service/sshd
-COPY etc/service/couchdb /etc/service-off/couchdb
-ENV HOME /usr/local/var/lib/couchdb
-WORKDIR /usr/local/var/lib/couchdb
+
+RUN apt-get update -yq && apt-get install -yq software-properties-common && \
+    add-apt-repository ppa:couchdb/stable -y && apt-get update -yq && \
+    apt-get install -yq couchdb pwgen curl && \
+    apt-get purge -y --auto-remove software-properties-common && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+ADD docker-entrypoint.sh /entrypoint.sh
+ADD local.ini /etc/couchdb/
 ENTRYPOINT ["/entrypoint.sh"]
+CMD ["couchdb"]
 EXPOSE 22 5984
