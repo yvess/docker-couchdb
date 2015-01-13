@@ -3,8 +3,8 @@ set -e
 
 if [ "$1" = 'couchdb' ]; then
   # set default values if not set
-  COUCHDB_DATA=${COUCHDB_DATA:-/var/services/log/couchdb}
-  COUCHDB_LOG=${COUCHDB_LOG:-/var/services/data/couchdb}
+  COUCHDB_DATA=${COUCHDB_DATA:-/var/services/data/couchdb}
+  COUCHDB_LOG=${COUCHDB_LOG:-/var/services/log/couchdb/couchdb.log}
   COUCHDB_ADMIN=${COUCHDB_ADMIN:-admin}
   COUCHDB_ADMINPASS=${COUCHDB_ADMINPASS:-admin}
   # make dirs
